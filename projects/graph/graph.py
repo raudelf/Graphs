@@ -3,9 +3,11 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -13,26 +15,47 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()
+        else:
+            return f'{vertex_id} is already in the graph'
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            self.vertices[v1] = {v2}
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        if vertex_id in self.vertices:
+            return self.vertices[vertex_id]
+        else:
+            return f'{vertex_id} is not in the graph!'
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+
+        visited = set()
+
+        q.enqueue(starting_vertex)
+
+        while q.size() > 0:
+            curr_node = q.dequeue()
+
+            if curr_node not in visited:
+                print(curr_node)
+
+                visited.add(curr_node)
 
     def dft(self, starting_vertex):
         """
@@ -75,6 +98,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
