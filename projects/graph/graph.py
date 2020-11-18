@@ -99,8 +99,14 @@ class Graph:
             visited.add(vertex)
 
             neighbors = self.get_neighbors(vertex)
-            for neighbor in neighbors:
-                self.dfs_recursive(neighbor, visited)
+            if len(neighbors) == 0:
+                return
+
+            else:
+                for neighbor in neighbors:
+                    self.dfs_recursive(neighbor, visited)
+
+        return visited
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -139,9 +145,32 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+        visited = set()
+
+        stack.push([starting_vertex])
+
+        while stack.size() > 0:
+            curr_path = stack.pop()
+            curr_node = curr_path[-1]
+
+            if curr_node is destination_vertex:
+                return curr_path
+
+            if curr_node not in visited:
+                print(curr_node)
+
+                visited.add(curr_node)
+
+                neighbors = self.get_neighbors(curr_node)
+
+                for neighbor in neighbors:
+                    path_copy = curr_path + [neighbor]
+
+                    stack.push(path_copy)
+
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=[], visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -149,7 +178,22 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if starting_vertex == destination_vertex:
+            return path
+
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+
+            neighbors = self.get_neighbors(starting_vertex)
+
+            for neighbor in neighbors:
+                path_copy = path + [neighbor]
+
+                result = self.dfs_recursive(
+                    neighbor, destination_vertex, path_copy, visited)
+
+                if result is not None:
+                    return result
 
 
 if __name__ == '__main__':
